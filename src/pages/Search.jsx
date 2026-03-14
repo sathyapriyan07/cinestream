@@ -41,21 +41,22 @@ export default function Search() {
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
-          <input
-            autoFocus
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search movies and TV shows..."
-            className="w-full bg-surface border border-border rounded-xl pl-12 pr-4 py-4 text-base focus:outline-none focus:border-accent transition-colors"
-          />
-          {query && (
-            <button onClick={() => setQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
-              </svg>
-            </button>
-          )}
+            <input
+              autoFocus
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search movies and TV shows..."
+              className="w-full bg-surface border border-border rounded-xl pl-12 pr-4 py-4 text-base focus:outline-none focus:border-accent transition-colors"
+            />
+            {query && (
+              <button onClick={() => setQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
