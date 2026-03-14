@@ -48,10 +48,14 @@ export default function Navbar() {
   useEffect(() => { setMobileOpen(false) }, [location])
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 h-[60px] transition-all duration-300 ${scrolled ? 'bg-black/95 backdrop-blur-sm border-b border-border' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 h-[56px] md:h-[60px] transition-all duration-300 ${
+      scrolled
+        ? 'bg-black/95 backdrop-blur-md border-b border-border'
+        : 'bg-black/80 backdrop-blur-md md:bg-gradient-to-b md:from-black/80 md:to-transparent md:backdrop-blur-none'
+    }`}>
       <div className="max-w-[1400px] mx-auto px-4 h-full flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-accent font-black text-2xl tracking-tight">
+        <Link to="/" className="text-accent font-black text-lg md:text-2xl tracking-tight flex-shrink-0">
           CINE<span className="text-white">STREAM</span>
         </Link>
 
@@ -66,7 +70,7 @@ export default function Navbar() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 md:gap-3">
           <button onClick={() => navigate('/search')} className="p-2 text-zinc-400 hover:text-white transition-colors">
             <SearchIcon />
           </button>

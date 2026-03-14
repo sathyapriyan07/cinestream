@@ -44,13 +44,13 @@ export default function Home() {
   const { user } = useAuth()
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen pt-[56px] md:pt-0">
       <HeroBanner items={trending} />
 
-      <div className="relative z-10 -mt-16 pb-16">
+      <div className="relative z-10 mt-6 sm:-mt-16 pb-16">
         {user && continueItems.length > 0 && (
           <section className="mb-8">
-            <h2 className="text-lg md:text-xl font-bold px-4 md:px-8 mb-3">Continue Watching</h2>
+            <h2 className="text-lg font-semibold md:text-xl md:font-bold px-4 md:px-8 mb-3">Continue Watching</h2>
             <div className="flex gap-3 overflow-x-auto scrollbar-hide px-4 md:px-8 pb-2">
               {continueItems.map(item => <ContinueWatchingCard key={item.id} item={item} />)}
             </div>
@@ -62,14 +62,14 @@ export default function Home() {
             <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
-          <>
+          <div className="mt-2 sm:mt-0">
             <ContentRow title="Trending Now" items={trending} />
             <ContentRow title="Popular Movies" items={popular} mediaType="movie" />
             <ContentRow title="Top Rated Movies" items={topRated} mediaType="movie" />
             <ContentRow title="Now Playing" items={nowPlaying} mediaType="movie" />
             <ContentRow title="Upcoming Movies" items={upcoming} mediaType="movie" />
             <ContentRow title="Popular TV Shows" items={tvPopular} mediaType="tv" />
-          </>
+          </div>
         )}
       </div>
     </motion.div>
