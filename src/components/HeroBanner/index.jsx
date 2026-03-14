@@ -142,6 +142,7 @@ export default function HeroBanner({ items = [] }) {
   const inList      = isInWatchlist(item.id, mediaType)
   const backdropSrc = item.backdrop_url || (item.backdrop_path ? img(item.backdrop_path, 'original') : null)
   const routeId     = item.tmdb_id || item.id
+  const genres      = Array.isArray(item.genres) ? item.genres.join(' • ') : item.genres
 
   const prev = () => go((current - 1 + total) % total)
   const next = () => go((current + 1) % total)
@@ -159,7 +160,7 @@ export default function HeroBanner({ items = [] }) {
   return (
     <div
       ref={heroRef}
-      className="relative h-[65vh] sm:h-[80vh] min-h-[480px] overflow-hidden bg-black"
+      className="relative h-[85vh] sm:h-[80vh] min-h-[480px] overflow-hidden bg-black"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -213,13 +214,37 @@ export default function HeroBanner({ items = [] }) {
 
       {/* ── Layer 3: Gradient overlays ── */}
       <div className="absolute inset-0 z-[2] pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent hidden sm:block" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent hidden sm:block" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent hidden sm:block" />
       </div>
 
-      {/* ── Layer 4: Hero content ── */}
-      <div className="absolute inset-0 z-[3] flex items-end max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ── Layer 4: Top overlay bar (mobile) ── */}
+      <div className="absolute top-0 left-0 right-0 z-[3] flex items-center justify-between px-4 py-4 sm:hidden">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 text-white"
+          aria-label="Go to home"
+        >
+          <span className="w-7 h-7 rounded-full bg-white/15 border border-white/20 flex items-center justify-center text-xs font-semibold">
+            CS
+          </span>
+          <span className="text-sm tracking-wide font-semibold">CineStream</span>
+        </button>
+        <button
+          onClick={() => navigate('/profile')}
+          className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white"
+          aria-label="Profile"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 12a4 4 0 100-8 4 4 0 000 8zM6 20a6 6 0 0112 0" />
+          </svg>
+        </button>
+      </div>
+
+      {/* ── Layer 5: Hero content ── */}
+      <div className="absolute inset-0 z-[3] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={`content-${item.id}`}
@@ -227,85 +252,134 @@ export default function HeroBanner({ items = [] }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.55, delay: 0.15, ease: 'easeOut' }}
-            className="pb-24 sm:pb-20 max-w-md sm:max-w-2xl w-full"
+            className="absolute bottom-16 left-0 right-0 sm:absolute sm:inset-0 sm:flex sm:items-end"
           >
-            {/* Meta badges */}
-            <div className="flex items-center gap-2 mb-3 sm:mb-4">
-              <span className="px-2.5 py-0.5 bg-accent text-white text-xs font-bold rounded uppercase tracking-wider">
-                {mediaType === 'movie' ? 'Movie' : 'Series'}
-              </span>
-              {year && <span className="text-zinc-400 text-xs sm:text-sm">{year}</span>}
-              {rating && (
-                <span className="flex items-center gap-1 text-xs sm:text-sm text-yellow-400 font-medium">
-                  <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-yellow-400" viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                  {rating}
-                </span>
+            {/* Mobile cinematic layout */}
+            <div className="sm:hidden px-4 pb-20 text-center">
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt={title}
+                  loading="lazy"
+                  className="max-h-[80px] w-auto object-contain mx-auto drop-shadow-lg"
+                />
+              ) : (
+                <h1 className="text-3xl font-bold leading-[1.05] mb-2">{title}</h1>
               )}
+
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-zinc-300 text-sm">
+                {rating && (
+                  <span className="flex items-center gap-1 text-yellow-400 font-medium">
+                    <svg className="w-3.5 h-3.5 fill-yellow-400" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    {rating}
+                  </span>
+                )}
+                {year && <span>{year}</span>}
+                {genres && <span>{genres}</span>}
+              </div>
+
+              {!showVideo && (
+                <p className="text-sm text-zinc-300 mt-3 line-clamp-3">
+                  {overview}
+                </p>
+              )}
+
+              <div className="flex items-center justify-center gap-3 mt-5">
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => navigate(`/watch/${mediaType}/${routeId}${mediaType === 'tv' ? '/1/1' : ''}`)}
+                  className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black shadow-lg"
+                  aria-label="Play"
+                >
+                  <svg className="w-5 h-5 fill-black" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                </motion.button>
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navigate(`/${mediaType}/${routeId}`)}
+                  className="rounded-full px-5 py-2 bg-white/10 border border-white/20 text-white text-sm font-semibold"
+                >
+                  See More
+                </motion.button>
+              </div>
             </div>
 
-            {/* Title logo or text */}
-            {logoUrl ? (
-              <img
-                src={logoUrl}
-                alt={title}
-                loading="lazy"
-                className="max-h-[70px] sm:max-h-[120px] w-auto object-contain mb-3 sm:mb-4 drop-shadow-lg"
-              />
-            ) : (
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.05] mb-3 sm:mb-4">
-                {title}
-              </h1>
-            )}
+            {/* Desktop layout (existing) */}
+            <div className="hidden sm:block w-full">
+              <div className="pb-20 max-w-md sm:max-w-2xl w-full">
+                {/* Meta badges */}
+                <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                  <span className="px-2.5 py-0.5 bg-accent text-white text-xs font-bold rounded uppercase tracking-wider">
+                    {mediaType === 'movie' ? 'Movie' : 'Series'}
+                  </span>
+                  {year && <span className="text-zinc-400 text-xs sm:text-sm">{year}</span>}
+                  {rating && (
+                    <span className="flex items-center gap-1 text-xs sm:text-sm text-yellow-400 font-medium">
+                      <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-yellow-400" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                      {rating}
+                    </span>
+                  )}
+                </div>
 
-            {/* Hide description while video plays; hide on mobile when space is tight */}
-            {!showVideo && (
-              <p className="hidden sm:block text-zinc-300 text-sm sm:text-base leading-relaxed line-clamp-3 mb-5 sm:mb-7 max-w-sm sm:max-w-lg">
-                {overview}
-              </p>
-            )}
-            {/* Short description visible on mobile only */}
-            {!showVideo && (
-              <p className="sm:hidden text-zinc-300 text-xs leading-relaxed line-clamp-2 mb-4 max-w-xs">
-                {overview}
-              </p>
-            )}
-            {showVideo && <div className="mb-5 sm:mb-7" />}
-
-            {/* Action buttons */}
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              <motion.button
-                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                onClick={() => navigate(`/watch/${mediaType}/${routeId}${mediaType === 'tv' ? '/1/1' : ''}`)}
-                className="flex items-center gap-2 bg-accent hover:bg-red-700 text-white px-5 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm transition-colors shadow-lg shadow-accent/30"
-              >
-                <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                Play Now
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                onClick={() => toggle({ tmdb_id: routeId, media_type: mediaType, title, poster_path: item.poster_path || null })}
-                className="flex items-center gap-2 glass-light border border-white/20 hover:border-white/40 text-white px-5 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm transition-all"
-              >
-                {inList ? (
-                  <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>In Watchlist</>
+                {/* Title logo or text */}
+                {logoUrl ? (
+                  <img
+                    src={logoUrl}
+                    alt={title}
+                    loading="lazy"
+                    className="max-h-[70px] sm:max-h-[120px] w-auto object-contain mb-3 sm:mb-4 drop-shadow-lg"
+                  />
                 ) : (
-                  <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>Watchlist</>
+                  <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.05] mb-3 sm:mb-4">
+                    {title}
+                  </h1>
                 )}
-              </motion.button>
 
-              <motion.button
-                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                onClick={() => navigate(`/${mediaType}/${routeId}`)}
-                className="flex items-center gap-2 glass-light border border-white/10 hover:border-white/25 text-zinc-300 hover:text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm transition-all"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                More Info
-              </motion.button>
+                {!showVideo && (
+                  <p className="text-zinc-300 text-sm sm:text-base leading-relaxed line-clamp-3 mb-5 sm:mb-7 max-w-sm sm:max-w-lg">
+                    {overview}
+                  </p>
+                )}
+                {showVideo && <div className="mb-5 sm:mb-7" />}
+
+                {/* Action buttons */}
+                <div className="flex flex-wrap gap-2 sm:gap-3">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate(`/watch/${mediaType}/${routeId}${mediaType === 'tv' ? '/1/1' : ''}`)}
+                    className="flex items-center gap-2 bg-accent hover:bg-red-700 text-white px-5 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm transition-colors shadow-lg shadow-accent/30"
+                  >
+                    <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                    Play Now
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                    onClick={() => toggle({ tmdb_id: routeId, media_type: mediaType, title, poster_path: item.poster_path || null })}
+                    className="flex items-center gap-2 glass-light border border-white/20 hover:border-white/40 text-white px-5 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm transition-all"
+                  >
+                    {inList ? (
+                      <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>In Watchlist</>
+                    ) : (
+                      <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>Watchlist</>
+                    )}
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate(`/${mediaType}/${routeId}`)}
+                    className="flex items-center gap-2 glass-light border border-white/10 hover:border-white/25 text-zinc-300 hover:text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm transition-all"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    More Info
+                  </motion.button>
+                </div>
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>
