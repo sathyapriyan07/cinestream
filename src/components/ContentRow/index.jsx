@@ -13,9 +13,9 @@ export default function ContentRow({ title, items = [], mediaType = 'movie' }) {
   return (
     <section className="mb-10">
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between mb-4">
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between mb-4">
         <h2 className="text-lg md:text-xl font-bold text-white">{title}</h2>
-        <div className="flex items-center gap-1.5">
+        <div className="hidden md:flex items-center gap-1.5">
           <button
             onClick={() => scroll(-1)}
             aria-label="Scroll left"
@@ -40,7 +40,7 @@ export default function ContentRow({ title, items = [], mediaType = 'movie' }) {
       {/* Scroll row */}
       <div
         ref={rowRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-8 pb-3"
+        className="flex gap-4 overflow-x-auto scrollbar-hide px-4 pb-3"
         style={{ scrollSnapType: 'x mandatory' }}
       >
         {items.map((item) => (

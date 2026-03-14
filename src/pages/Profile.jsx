@@ -33,9 +33,9 @@ export default function Profile() {
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="min-h-screen pt-[76px] pb-16 px-4 md:px-8 max-w-[800px] mx-auto">
-      <h1 className="text-3xl font-black mb-8">Profile</h1>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-black mb-8">Profile</h1>
 
       {/* Account Info */}
       <div className="bg-surface border border-border rounded-xl p-6 mb-4">
@@ -87,10 +87,11 @@ export default function Profile() {
           className="text-green-400 text-sm text-center mb-4">{msg}</motion.p>
       )}
 
-      <button onClick={handleSignOut}
-        className="w-full bg-accent/10 border border-accent/30 text-accent py-3 rounded-xl font-semibold hover:bg-accent/20 transition-colors">
-        Sign Out
-      </button>
+        <button onClick={handleSignOut}
+          className="w-full bg-accent/10 border border-accent/30 text-accent py-3 rounded-xl font-semibold hover:bg-accent/20 transition-colors">
+          Sign Out
+        </button>
+      </div>
     </motion.div>
   )
 }

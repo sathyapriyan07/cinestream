@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react'
 import { useContinueWatching } from '../../hooks/useContinueWatching'
 
-export default function VideoPlayer({ tmdbId, mediaType, season, episode, startProgress }) {
+export default function VideoPlayer({ tmdbId, mediaType, season, episode, startProgress, muted }) {
   const { saveProgress } = useContinueWatching()
   const saveRef = useRef(saveProgress)
   saveRef.current = saveProgress
 
+  const muteParam = muted ? '&mute=1' : ''
   const src = mediaType === 'movie'
-    ? `https://www.vidking.net/embed/movie/${tmdbId}?color=e50914&autoPlay=true${startProgress ? `&progress=${startProgress}` : ''}`
-    : `https://www.vidking.net/embed/tv/${tmdbId}/${season}/${episode}?color=e50914&autoPlay=true&nextEpisode=true&episodeSelector=true${startProgress ? `&progress=${startProgress}` : ''}`
+    ? `https://www.vidking.net/embed/movie/${tmdbId}?color=ff2b2b&autoPlay=true${muteParam}${startProgress ? `&progress=${startProgress}` : ''}`
+    : `https://www.vidking.net/embed/tv/${tmdbId}/${season}/${episode}?color=ff2b2b&autoPlay=true&nextEpisode=true&episodeSelector=true${muteParam}${startProgress ? `&progress=${startProgress}` : ''}`
 
   useEffect(() => {
     const handler = (event) => {

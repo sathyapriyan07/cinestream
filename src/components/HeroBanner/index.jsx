@@ -142,7 +142,7 @@ export default function HeroBanner({ items = [] }) {
   const inList      = isInWatchlist(item.id, mediaType)
   const backdropSrc = item.backdrop_url || (item.backdrop_path ? img(item.backdrop_path, 'original') : null)
   const routeId     = item.tmdb_id || item.id
-  const genres      = Array.isArray(item.genres) ? item.genres.join(' • ') : item.genres
+  const genres      = Array.isArray(item.genres) ? item.genres.join(' / ') : item.genres
 
   const prev = () => go((current - 1 + total) % total)
   const next = () => go((current + 1) % total)
@@ -160,7 +160,7 @@ export default function HeroBanner({ items = [] }) {
   return (
     <div
       ref={heroRef}
-      className="relative h-[85vh] sm:h-[80vh] min-h-[480px] overflow-hidden bg-black"
+      className="relative h-[85vh] sm:h-[90vh] min-h-[480px] overflow-hidden bg-black"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -214,37 +214,11 @@ export default function HeroBanner({ items = [] }) {
 
       {/* ── Layer 3: Gradient overlays ── */}
       <div className="absolute inset-0 z-[2] pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:hidden" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent hidden sm:block" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent hidden sm:block" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent hidden sm:block" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
       </div>
 
-      {/* ── Layer 4: Top overlay bar (mobile) ── */}
-      <div className="absolute top-0 left-0 right-0 z-[3] flex items-center justify-between px-4 py-4 sm:hidden">
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-white"
-          aria-label="Go to home"
-        >
-          <span className="w-7 h-7 rounded-full bg-white/15 border border-white/20 flex items-center justify-center text-xs font-semibold">
-            CS
-          </span>
-          <span className="text-sm tracking-wide font-semibold">CineStream</span>
-        </button>
-        <button
-          onClick={() => navigate('/profile')}
-          className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white"
-          aria-label="Profile"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 12a4 4 0 100-8 4 4 0 000 8zM6 20a6 6 0 0112 0" />
-          </svg>
-        </button>
-      </div>
-
-      {/* ── Layer 5: Hero content ── */}
-      <div className="absolute inset-0 z-[3] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ── Layer 4: Hero content ── */}
+      <div className="absolute inset-0 z-[3] max-w-7xl mx-auto px-4">
         <AnimatePresence mode="wait">
           <motion.div
             key={`content-${item.id}`}
@@ -252,7 +226,7 @@ export default function HeroBanner({ items = [] }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.55, delay: 0.15, ease: 'easeOut' }}
-            className="absolute bottom-16 left-0 right-0 sm:absolute sm:inset-0 sm:flex sm:items-end"
+            className="absolute bottom-20 left-0 right-0 sm:absolute sm:inset-0 sm:flex sm:items-end"
           >
             {/* Mobile cinematic layout */}
             <div className="sm:hidden px-4 pb-20 text-center">

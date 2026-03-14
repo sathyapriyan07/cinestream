@@ -4,8 +4,6 @@ import { tmdb } from '../services/tmdb'
 import { supabase } from '../services/supabase'
 import MovieCard from '../components/MovieCard'
 
-const TMDB_IMG = 'https://image.tmdb.org/t/p'
-
 function normalizeMovie(row) {
   return {
     id:           row.tmdb_id || row.id,
@@ -86,22 +84,22 @@ export default function Movies() {
       : movies
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="min-h-screen pt-[76px] pb-16 px-4 md:px-8 max-w-[1400px] mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-black">Movies</h1>
-        {fromSupabase && (
-          <span className="text-xs text-accent bg-accent/10 border border-accent/20 px-2.5 py-1 rounded-full font-medium">
-            Library
-          </span>
-        )}
-      </div>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-black">Movies</h1>
+          {fromSupabase && (
+            <span className="text-xs text-accent bg-accent/10 border border-accent/20 px-2.5 py-1 rounded-full font-medium">
+              Library
+            </span>
+          )}
+        </div>
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <input
           value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="Search by title…"
+          placeholder="Search by title..."
           className="bg-surface border border-border rounded-lg px-4 py-2.5 text-sm flex-1 focus:outline-none focus:border-accent transition-colors"
         />
         <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
@@ -133,7 +131,7 @@ export default function Movies() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {filtered.map(m => <MovieCard key={m.id} item={m} mediaType="movie" />)}
           </div>
           {!search && totalPages > 1 && (
@@ -151,6 +149,7 @@ export default function Movies() {
           )}
         </>
       )}
+      </div>
     </motion.div>
   )
 }

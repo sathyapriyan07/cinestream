@@ -34,13 +34,13 @@ export default function Search() {
   }, [query])
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="min-h-screen pt-[76px] pb-16 px-4 md:px-8 max-w-[1400px] mx-auto">
-      <div className="max-w-2xl mx-auto mb-8">
-        <div className="relative">
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto mb-8">
+          <div className="relative">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
           <input
             autoFocus
             value={query}
@@ -66,7 +66,7 @@ export default function Search() {
       )}
 
       {!loading && results.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 pb-8">
           {results.map(item => {
             const type = item.media_type
             const title = item.title || item.name
@@ -96,13 +96,13 @@ export default function Search() {
       )}
 
       {!loading && query && results.length === 0 && (
-        <div className="text-center py-20 text-zinc-500">
+        <div className="max-w-7xl mx-auto px-4 text-center py-20 text-zinc-500">
           <p className="text-lg">No results for "{query}"</p>
         </div>
       )}
 
       {!query && !loading && (
-        <div className="text-center py-20 text-zinc-600">
+        <div className="max-w-7xl mx-auto px-4 text-center py-20 text-zinc-600">
           <svg className="w-16 h-16 mx-auto mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>

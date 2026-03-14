@@ -6,8 +6,8 @@ export default {
       colors: {
         background: '#000000',
         surface: '#111111',
-        border: '#27272a',
-        accent: '#e50914',
+        border: 'rgba(255,255,255,0.08)',
+        accent: '#ff2b2b',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

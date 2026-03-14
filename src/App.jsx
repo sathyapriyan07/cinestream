@@ -1,8 +1,8 @@
 import { Suspense, lazy } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import Navbar from './components/Navbar'
 import AdminGuard from './components/admin/AdminGuard'
+import Layout from './components/Layout'
 
 // Public pages
 const Home         = lazy(() => import('./pages/Home'))
@@ -36,33 +36,30 @@ const Spinner = () => (
   </div>
 )
 
-const WATCH_ROUTES = ['/watch/movie', '/watch/tv']
-const ADMIN_ROUTES = ['/admin']
-
 export default function App() {
   const location = useLocation()
-  const isWatchPage = WATCH_ROUTES.some((r) => location.pathname.startsWith(r))
-  const isAdminPage = ADMIN_ROUTES.some((r) => location.pathname.startsWith(r))
 
   return (
     <>
-      {!isWatchPage && !isAdminPage && <Navbar />}
       <Suspense fallback={<Spinner />}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             {/* ── Public ── */}
-            <Route path="/"                                    element={<Home />} />
-            <Route path="/movies"                              element={<Movies />} />
-            <Route path="/series"                              element={<Series />} />
-            <Route path="/movie/:id"                           element={<MovieDetail />} />
-            <Route path="/series/:id"                          element={<SeriesDetail />} />
+            <Route element={<Layout />}>
+              <Route path="/"                                    element={<Home />} />
+              <Route path="/movies"                              element={<Movies />} />
+              <Route path="/series"                              element={<Series />} />
+              <Route path="/movie/:id"                           element={<MovieDetail />} />
+              <Route path="/series/:id"                          element={<SeriesDetail />} />
+              <Route path="/search"                              element={<Search />} />
+              <Route path="/login"                               element={<Login />} />
+              <Route path="/signup"                              element={<Signup />} />
+              <Route path="/profile"                             element={<Profile />} />
+              <Route path="/watchlist"                           element={<Watchlist />} />
+            </Route>
+
             <Route path="/watch/movie/:tmdbId"                 element={<WatchMovie />} />
             <Route path="/watch/tv/:tmdbId/:season/:episode"   element={<WatchTV />} />
-            <Route path="/search"                              element={<Search />} />
-            <Route path="/login"                               element={<Login />} />
-            <Route path="/signup"                              element={<Signup />} />
-            <Route path="/profile"                             element={<Profile />} />
-            <Route path="/watchlist"                           element={<Watchlist />} />
 
             {/* ── Admin (guarded) ── */}
             <Route

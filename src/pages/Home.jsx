@@ -44,14 +44,14 @@ export default function Home() {
   const { user } = useAuth()
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen pt-[56px] md:pt-0">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen">
       <HeroBanner items={trending} />
 
-      <div className="relative z-10 mt-6 sm:-mt-16 pb-16">
+      <div className="relative z-10 mt-6 sm:-mt-16 pb-24">
         {user && continueItems.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-lg font-semibold md:text-xl md:font-bold px-4 md:px-8 mb-3">Continue Watching</h2>
-            <div className="flex gap-3 overflow-x-auto scrollbar-hide px-4 md:px-8 pb-2">
+          <section className="mb-8 max-w-7xl mx-auto px-4">
+            <h2 className="text-lg font-semibold md:text-xl md:font-bold mb-3">Continue Watching</h2>
+            <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
               {continueItems.map(item => <ContinueWatchingCard key={item.id} item={item} />)}
             </div>
           </section>

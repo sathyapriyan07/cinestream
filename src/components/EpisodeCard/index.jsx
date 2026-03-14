@@ -9,10 +9,15 @@ export default function EpisodeCard({ episode, seriesId, season }) {
   const navigate = useNavigate()
   const runtime = episode.runtime ? `${episode.runtime}m` : ''
 
+  const goPlay = (e) => {
+    e.stopPropagation()
+    navigate(`/watch/tv/${seriesId}/${season}/${episode.episode_number}`)
+  }
+
   return (
     <div
       onClick={() => navigate(`/watch/tv/${seriesId}/${season}/${episode.episode_number}`)}
-      className="flex gap-3 p-3 rounded-lg bg-surface border border-border hover:border-accent/50 cursor-pointer group transition-colors"
+      className="flex gap-3 p-3 rounded-xl bg-surface border border-border hover:border-accent/50 cursor-pointer group transition-colors"
     >
       <div className="relative flex-shrink-0 w-32 aspect-video rounded overflow-hidden bg-black">
         {episode.still_path ? (
@@ -34,6 +39,14 @@ export default function EpisodeCard({ episode, seriesId, season }) {
         </div>
         <p className="text-xs text-zinc-400 mt-1 line-clamp-2">{episode.overview}</p>
       </div>
+
+      <button
+        onClick={goPlay}
+        className="flex-shrink-0 w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white"
+        aria-label="Play episode"
+      >
+        <PlayIcon />
+      </button>
     </div>
   )
 }

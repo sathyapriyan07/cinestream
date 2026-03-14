@@ -21,9 +21,9 @@ export default function Watchlist() {
   )
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="min-h-screen pt-[76px] pb-16 px-4 md:px-8 max-w-[1400px] mx-auto">
-      <h1 className="text-3xl font-black mb-6">My Watchlist</h1>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-black mb-6">My Watchlist</h1>
 
       {watchlist.length === 0 ? (
         <div className="text-center py-20 text-zinc-500">
@@ -34,7 +34,7 @@ export default function Watchlist() {
           <p className="text-sm">Add movies and shows to watch later</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {watchlist.map(item => (
             <div key={item.id} className="relative group">
               <MovieCard
@@ -54,6 +54,7 @@ export default function Watchlist() {
           ))}
         </div>
       )}
+      </div>
     </motion.div>
   )
 }

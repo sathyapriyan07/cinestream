@@ -40,7 +40,7 @@ export default function Login() {
             <label className="block text-sm text-zinc-400 mb-1.5">Password</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} required
               className="w-full bg-black border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors"
-              placeholder="••••••••" />
+              placeholder="********" />
           </div>
           {error && <p className="text-accent text-sm">{error}</p>}
           <button type="submit" disabled={loading}

@@ -31,7 +31,7 @@ export default function MovieCard({ item, mediaType = 'movie' }) {
         onHoverEnd={() => setHovered(false)}
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.22, ease: 'easeOut' }}
-        className="relative aspect-[2/3] rounded-xl overflow-hidden bg-zinc-900"
+        className="relative aspect-[2/3] rounded-xl overflow-hidden bg-surface border border-border"
         style={{ zIndex: hovered ? 10 : 1, position: 'relative' }}
       >
         {/* Poster */}
