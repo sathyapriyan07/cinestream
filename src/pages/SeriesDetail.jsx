@@ -160,7 +160,15 @@ export default function SeriesDetail() {
             }
           </div>
           <div>
-            <h2 className="text-xl font-bold mb-2">About</h2>
+            {logoUrl ? (
+              <img
+                src={logoUrl}
+                alt={show.name}
+                className="max-h-[48px] object-contain mb-3"
+              />
+            ) : (
+              <h2 className="text-xl font-bold mb-2">About</h2>
+            )}
             <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-400 mb-4">
               {year && <span>{year}</span>}
               {show.number_of_seasons > 0 && (
